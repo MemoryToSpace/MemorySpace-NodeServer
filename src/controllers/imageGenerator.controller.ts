@@ -1,7 +1,11 @@
 // src/controllers/imageGenerator.controller.ts
 import { Controller, Post, Route, Body, SuccessResponse, Example } from 'tsoa';
 import { GenerateImageRequest, GenerateImageRequestSchema } from '../types/imageGenerator.types';
-import { generateImageLimewire, generateImageOpenAI } from '../services/imageGenerator.service';
+import {
+  generateImageLimewire,
+  generateImageOpenAI,
+  generateTestImage,
+} from '../services/imageGenerator.service';
 
 @Route('generate-image')
 export class OpenAIController extends Controller {
@@ -35,5 +39,21 @@ export class OpenAIController extends Controller {
   ): Promise<{ input_text: string; image_url: string }> {
     GenerateImageRequestSchema.parse(request);
     return generateImageOpenAI(request.text);
+  }
+
+  /**
+   * Generate atest to check if the server is working
+   * @param request The text prompt to be used for image generation
+   * @example request { "text": "A cozy cottage in the woods" }
+   * @example response { "input_text": "A cozy cottage in the woods" }
+   */
+  @Post('test')
+  @Example<GenerateImageRequest>({ text: 'A cozy cottage in the woods' })
+  @SuccessResponse(200)
+  public async generateTest(
+    @Body() request: GenerateImageRequest,
+  ): Promise<{ input_text: string }> {
+    GenerateImageRequestSchema.parse(request);
+    return generateTestImage(request.text);
   }
 }

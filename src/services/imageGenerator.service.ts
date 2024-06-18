@@ -66,3 +66,9 @@ export const generateImageOpenAI = async (
     image_url: imageUrl,
   };
 };
+
+export const generateTestImage = async (text: string): Promise<{ input_text: string }> => {
+  return {
+    input_text: text,
+  };
+};
