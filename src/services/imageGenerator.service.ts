@@ -1,6 +1,6 @@
 // src/services/imageGenerator.service.ts
 import axios from 'axios';
-import { vars } from '@/config/vars';
+import { vars } from '../config/vars';
 
 const limewireUrl = 'https://api.limewire.com/api/image/generation';
 const openaiUrl = 'https://api.openai.com/v1/images/generations';
