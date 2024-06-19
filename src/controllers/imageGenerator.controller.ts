@@ -5,7 +5,12 @@ import {
   generateImageLimewire,
   generateImageOpenAI,
   generateTestImage,
+  sendMemoryByEmail,
 } from '../services/imageGenerator.service';
+import {
+  sendMemoryEmailRequestSchema,
+  SendMemoryEmailRequest,
+} from '../types/sendMemoryEmail.types';
 
 @Route('generate-image')
 export class OpenAIController extends Controller {
@@ -55,5 +60,20 @@ export class OpenAIController extends Controller {
   ): Promise<{ input_text: string }> {
     GenerateImageRequestSchema.parse(request);
     return generateTestImage(request.text);
+  }
+
+  /**
+   * Send memory details to the provided email
+   * @param request The request containing memory ID and email
+   * @example request { "_id": "60d5f2c2fc13ae1d7c002b1e", "email": "example@example.com" }
+   */
+  @Post('send-memory')
+  @SuccessResponse(200)
+  public async sendMemoryByEmail(
+    @Body() request: SendMemoryEmailRequest,
+  ): Promise<{ message: string }> {
+    sendMemoryEmailRequestSchema.parse(request);
+    await sendMemoryByEmail(request._id, request.email);
+    return { message: 'Email sent successfully' };
   }
 }
