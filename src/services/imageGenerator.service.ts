@@ -1,6 +1,9 @@
 // src/services/imageGenerator.service.ts
 import axios from 'axios';
 import { vars } from '../config/vars';
+import DataAccess from '../utils/dataAccess';
+import { IImageGenerator } from '../models/imageGenerator.model';
+import mongoose from 'mongoose';
 
 const limewireUrl = 'https://api.limewire.com/api/image/generation';
 const openaiUrl = 'https://api.openai.com/v1/images/generations';
@@ -56,18 +59,28 @@ const generateImageRequestOpenAI = async (prompt: string): Promise<any> => {
 
 export const generateImageOpenAI = async (
   text: string,
-): Promise<{ input_text: string; image_url: string }> => {
+): Promise<{ _id: string; inputText: string; imageUrl: string }> => {
   const refinedPrompt = `Create a 3d view that visually represents the key elements and emotions from the following memory: --> ${text}. --> Include relevant architectural styles, landscapes, and significant features as described.`;
   const res = await generateImageRequestOpenAI(refinedPrompt);
   const imageUrl = res.data[0].url;
 
+  const memory = await DataAccess.create<IImageGenerator>('Memory', {
+    inputText: text,
+    imageUrl,
+  });
+
   return {
-    input_text: text,
-    image_url: imageUrl,
+    _id: (memory._id as mongoose.Types.ObjectId).toString(),
+    inputText: memory.inputText,
+    imageUrl: memory.imageUrl,
   };
 };
-
 export const generateTestImage = async (text: string): Promise<{ input_text: string }> => {
+  await DataAccess.create<IImageGenerator>('Memory', {
+    inputText: text,
+    imageUrl: text + 'uurrll',
+  });
+
   return {
     input_text: text,
   };
