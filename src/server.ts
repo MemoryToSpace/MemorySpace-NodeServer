@@ -4,8 +4,13 @@ import bodyParser from 'body-parser';
 import { RegisterRoutes } from './routes/routes'; // Adjusted to relative path
 import swaggerUi from 'swagger-ui-express';
 import { vars } from './config/vars';
+import { connectDB } from './config/connectDb';
+import loadModels from './config/modelLoader';
 
 const app = express();
+
+loadModels();
+
 const port = vars.port || 3000;
 
 app.use(bodyParser.json());
@@ -21,6 +26,8 @@ app.use((err: any, req: express.Request, res: express.Response) => {
     error: err,
   });
 });
+
+connectDB();
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
