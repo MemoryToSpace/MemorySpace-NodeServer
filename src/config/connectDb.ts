@@ -1,7 +1,7 @@
 // src/config/connectDb.ts
 
 import mongoose from 'mongoose';
-import { vars } from '@/config/vars';
+import { vars } from '../config/vars';
 const { databaseURL } = vars;
 
 export const connectDB = async (): Promise<void> => {
