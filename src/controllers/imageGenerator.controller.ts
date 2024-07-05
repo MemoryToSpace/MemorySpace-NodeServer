@@ -59,7 +59,7 @@ export class OpenAIController extends Controller {
     @Body() request: GenerateImageRequest,
   ): Promise<{ input_text: string }> {
     GenerateImageRequestSchema.parse(request);
-    return generateTestImage(request.text);
+    return generateTestImage('SERVER IS WORKING: ' + request.text);
   }
 
   /**
