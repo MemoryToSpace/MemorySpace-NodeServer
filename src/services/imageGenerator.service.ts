@@ -12,23 +12,41 @@ import { v4 as uuidv4 } from 'uuid';
 
 const limewireUrl = 'https://api.limewire.com/api/image/generation';
 const openaiUrl = 'https://api.openai.com/v1/images/generations';
+const huggingfaceUrl = 'https://StarQuest2-basicapp.hf.space/run/Integrated';
+const hfApiToken = vars.huggingFaceApiToken;
 
 const generateImageRequestLimewire = async (prompt: string, aspect_ratio = '1:1'): Promise<any> => {
-  const prePrompt = '';
+  // Create the payload
+  console.log(hfApiToken);
+
   const payload = {
-    prompt: `${prePrompt} ${prompt}`,
-    aspect_ratio: aspect_ratio,
+    data: [hfApiToken, prompt],
   };
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Api-Version': 'v1',
-    Accept: 'application/json',
-    Authorization: `Bearer ${vars.limeToken}`,
-  };
+  // Send the POST request to Hugging Face Spaces
+  const nlpResponse = await axios.post(huggingfaceUrl, payload);
 
-  const response = await axios.post(limewireUrl, payload, { headers });
-  return response.data;
+  if (nlpResponse.status === 200) {
+    const betterPrompt = nlpResponse.data.data[0];
+
+    const prePrompt = '';
+    const imagePayload = {
+      prompt: `${prePrompt} ${betterPrompt}`,
+      aspect_ratio: aspect_ratio,
+    };
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-Api-Version': 'v1',
+      Accept: 'application/json',
+      Authorization: `Bearer ${vars.limeToken}`,
+    };
+
+    const response = await axios.post(limewireUrl, imagePayload, { headers });
+    return response.data;
+  } else {
+    throw new Error(`Hugging Face Spaces error: ${nlpResponse.data}`);
+  }
 };
 
 export const generateImageLimewire = async (

@@ -35,4 +35,5 @@ export const vars = {
     universe_domain: process.env.UNIVERSE_DOMAIN || '',
   },
   firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET || '',
+  huggingFaceApiToken: process.env.HUGGING_FACE_API_TOKEN || '',
 };
