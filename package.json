@@ -55,6 +55,7 @@
     "firebase-admin": "^12.1.1",
     "mongoose": "^8.4.3",
     "nodemailer": "^6.9.3",
+    "openai": "^4.52.5",
     "swagger-ui-express": "^5.0.0",
     "tsconfig-paths": "^4.2.0",
     "tsoa": "^6.3.1",
