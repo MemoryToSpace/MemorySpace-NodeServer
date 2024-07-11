@@ -5,12 +5,12 @@ import {
   generateImageLimewire,
   generateImageOpenAI,
   generateTestImage,
-  sendMemoryByEmail,
 } from '../services/imageGenerator.service';
 import {
   sendMemoryEmailRequestSchema,
   SendMemoryEmailRequest,
 } from '../types/sendMemoryEmail.types';
+import { sendMemoryByEmail } from '../services/email.service';
 
 @Route('generate-image')
 export class OpenAIController extends Controller {
@@ -59,7 +59,7 @@ export class OpenAIController extends Controller {
     @Body() request: GenerateImageRequest,
   ): Promise<{ input_text: string }> {
     GenerateImageRequestSchema.parse(request);
-    return generateTestImage(request.text);
+    return generateTestImage('SERVER IS WORKING: ' + request.text);
   }
 
   /**
