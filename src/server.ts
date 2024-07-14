@@ -15,7 +15,7 @@ loadModels();
 
 const port = vars.port || 3000;
 
-app.use(cors()); // Use the cors middleware
+app.use(cors());
 app.use(bodyParser.json());
 
 RegisterRoutes(app);
