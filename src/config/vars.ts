@@ -40,4 +40,7 @@ export const vars = {
   mailgunDomain: process.env.MAILGUN_DOMAIN || '',
   emailFrom: process.env.EMAIL_FROM || '',
   mailgunUsername: process.env.MAILGUN_USERNAME || '',
+  mailesendApiKey: process.env.MAILERSEND_API_KEY || '',
+  fromEmail: process.env.FROM_EMAIL || '',
+  fromName: process.env.FROM_NAME || '',
 };

@@ -2,7 +2,7 @@
 import DataAccess from '../utils/dataAccess';
 import { IImageGenerator } from '../models/imageGenerator.model';
 import mongoose from 'mongoose';
-import sendEmail from '../config/mailgun';
+import sendEmail from '../config/mailersend';
 
 export const sendMemoryByEmail = async (memoryId: string, email: string): Promise<void> => {
   const memory = await DataAccess.findById<IImageGenerator>(
@@ -36,7 +36,7 @@ export const sendMemoryByEmail = async (memoryId: string, email: string): Promis
   await sendEmail({
     to: email,
     subject: 'Your Requested Memory',
-    text: '',
+    text: `Here is your requested memory: ${memory.inputText}`,
     html: message,
   });
 };
