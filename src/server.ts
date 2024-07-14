@@ -7,6 +7,7 @@ import { vars } from './config/vars';
 import { connectDB } from './config/connectDb';
 import loadModels from './config/modelLoader';
 import cors from 'cors';
+import AppError from './utils/appError';
 
 const app = express();
 
@@ -23,10 +24,17 @@ import swaggerDocument from '../dist/swagger.json';
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.status(err.status || 500).json({
-    message: err.message,
-    error: err,
-  });
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      status: err.statusCode,
+      message: err.message,
+    });
+  } else {
+    res.status(500).json({
+      status: 500,
+      message: 'Something went wrong',
+    });
+  }
 });
 
 connectDB();

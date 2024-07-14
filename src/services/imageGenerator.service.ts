@@ -46,7 +46,7 @@ const generateImageRequestOpenAI = async (prompt: string): Promise<any> => {
   const payload = {
     model: 'dall-e-3',
     prompt: prompt,
-    size: '1024x1024',
+    size: '1920x1080',
     quality: 'standard',
     n: 1,
     response_format: 'b64_json',

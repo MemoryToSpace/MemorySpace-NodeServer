@@ -36,4 +36,8 @@ export const vars = {
   },
   firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET || '',
   huggingFaceApiToken: process.env.HUGGING_FACE_API_TOKEN || '',
+  mailgunApiKey: process.env.MAILGUN_API_KEY || '',
+  mailgunDomain: process.env.MAILGUN_DOMAIN || '',
+  emailFrom: process.env.EMAIL_FROM || '',
+  mailgunUsername: process.env.MAILGUN_USERNAME || '',
 };

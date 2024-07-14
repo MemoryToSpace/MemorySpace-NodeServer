@@ -11,6 +11,7 @@ import {
   SendMemoryEmailRequest,
 } from '../types/sendMemoryEmail.types';
 import { sendMemoryByEmail } from '../services/email.service';
+import AppError from '../utils/appError';
 
 @Route('generate-image')
 export class OpenAIController extends Controller {
@@ -73,7 +74,11 @@ export class OpenAIController extends Controller {
     @Body() request: SendMemoryEmailRequest,
   ): Promise<{ message: string }> {
     sendMemoryEmailRequestSchema.parse(request);
-    await sendMemoryByEmail(request._id, request.email);
-    return { message: 'Email sent successfully' };
+    try {
+      await sendMemoryByEmail(request._id, request.email);
+      return { message: 'Email sent successfully' };
+    } catch (error: any) {
+      throw new AppError(error.message, 500);
+    }
   }
 }
