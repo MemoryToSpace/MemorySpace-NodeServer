@@ -99,7 +99,7 @@ export const generateImageOpenAI = async (
 
   const improvedText = await enhancePrompt(processedText);
 
-  const refinedPrompt = `Create a Image acording to -->: "${improvedText}".`;
+  const refinedPrompt = `Create an image according to: "${improvedText}". The image should have an old-fashioned look with brown and sepia tones to evoke a sense of nostalgia and memory.`;
   const res = await generateImageRequestOpenAI(refinedPrompt);
   const base64Image = res.data[0].b64_json;
 
