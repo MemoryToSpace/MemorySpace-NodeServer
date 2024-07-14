@@ -46,7 +46,7 @@ const generateImageRequestOpenAI = async (prompt: string): Promise<any> => {
   const payload = {
     model: 'dall-e-3',
     prompt: prompt,
-    size: '1920x1080',
+    size: '1792x1024',
     quality: 'standard',
     n: 1,
     response_format: 'b64_json',
@@ -94,13 +94,10 @@ export const generateImageOpenAI = async (
   let processedText = text;
 
   if (isHebrew(text)) {
-    // אם הטקסט בעברית, נתרגם אותו תחילה לאנגלית
     processedText = await translateText(text);
   }
 
-  // נשפר את הטקסט המעובד
   const improvedText = await enhancePrompt(processedText);
-  console.log('Improved text:', improvedText);
 
   const refinedPrompt = `Create a Image acording to -->: "${improvedText}".`;
   const res = await generateImageRequestOpenAI(refinedPrompt);
