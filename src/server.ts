@@ -16,7 +16,7 @@ loadModels();
 const port = vars.port || 3000;
 
 const corsOptions = {
-  origin: 'https://from-memory-to-space.netlify.app',
+  origin: ['https://from-memory-to-space.netlify.app', 'https://memory-to-space.netlify.app/'],
   optionsSuccessStatus: 200, // For legacy browser support
 };
 
