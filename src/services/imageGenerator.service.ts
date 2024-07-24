@@ -6,40 +6,29 @@ import { IImageGenerator } from '../models/imageGenerator.model';
 import mongoose from 'mongoose';
 import { uploadBufferToFirebase } from '../utils/firebase';
 import { v4 as uuidv4 } from 'uuid';
-import { enhancePrompt, translateText } from './text.service';
+import { enhancePrompt, translateText } from './nlp.service';
 
-const limewireUrl = 'https://api.limewire.com/api/image/generation';
 const openaiUrl = 'https://api.openai.com/v1/images/generations';
 
-const generateImageRequestLimewire = async (prompt: string, aspect_ratio = '1:1'): Promise<any> => {
-  const prePrompt = '';
-  const payload = {
-    prompt: `${prePrompt} ${prompt}`,
-    aspect_ratio: aspect_ratio,
-  };
-
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Api-Version': 'v1',
-    Accept: 'application/json',
-    Authorization: `Bearer ${vars.limeToken}`,
-  };
-
-  const response = await axios.post(limewireUrl, payload, { headers });
-  return response.data;
-};
-
-export const generateImageLimewire = async (
+export const generateImageOpenAI = async (
   text: string,
-): Promise<{ input_text: string; image_url: string }> => {
-  const refinedPrompt = `Create a detailed and visually stunning image based on the following description: ${text}`;
-  const res = await generateImageRequestLimewire(refinedPrompt);
-  const imageUrl = res.data[0].asset_url;
+): Promise<{ _id: string; inputText: string; imageUrl: string }> => {
+  let processedText = text;
 
-  return {
-    input_text: text,
-    image_url: imageUrl,
-  };
+  if (/[א-ת]/.test(text)) {
+    processedText = await translateText(text);
+  }
+
+  const improvedText = await enhancePrompt(processedText);
+
+  const refinedPrompt = `Create an image according to: "${improvedText}". The image should be in the style of an architectural drawing, in beautiful black and white, and viewed from a high bird's-eye perspective.`;
+  const res = await generateImageRequestOpenAI(refinedPrompt);
+  const base64Image = res.data[0].b64_json;
+
+  const buffer = convertBase64ToBuffer(base64Image);
+  const firebaseUrl = await uploadImageToFirebase(buffer);
+
+  return createMemoryRecord(text, firebaseUrl);
 };
 
 const generateImageRequestOpenAI = async (prompt: string): Promise<any> => {
@@ -83,39 +72,5 @@ const createMemoryRecord = async (
     _id: (memory._id as mongoose.Types.ObjectId).toString(),
     inputText: memory.inputText,
     imageUrl: memory.imageUrl,
-  };
-};
-
-const isHebrew = (text: string): boolean => /[א-ת]/.test(text);
-
-export const generateImageOpenAI = async (
-  text: string,
-): Promise<{ _id: string; inputText: string; imageUrl: string }> => {
-  let processedText = text;
-
-  if (isHebrew(text)) {
-    processedText = await translateText(text);
-  }
-
-  const improvedText = await enhancePrompt(processedText);
-
-  const refinedPrompt = `Create an image according to: "${improvedText}". The image should have an style: Architecture drawing in black and white.`;
-  const res = await generateImageRequestOpenAI(refinedPrompt);
-  const base64Image = res.data[0].b64_json;
-
-  const buffer = convertBase64ToBuffer(base64Image);
-  const firebaseUrl = await uploadImageToFirebase(buffer);
-
-  return createMemoryRecord(text, firebaseUrl);
-};
-
-export const generateTestImage = async (text: string): Promise<{ input_text: string }> => {
-  await DataAccess.create<IImageGenerator>('Memory', {
-    inputText: text,
-    imageUrl: text + 'uurrll',
-  });
-
-  return {
-    input_text: text,
   };
 };

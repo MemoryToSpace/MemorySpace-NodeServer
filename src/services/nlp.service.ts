@@ -1,4 +1,4 @@
-// src/services/textImprovement.service.ts
+// src/services/nlp.service.ts
 import { vars } from '../config/vars';
 
 import OpenAI from 'openai';
