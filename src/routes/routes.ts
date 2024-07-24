@@ -35,41 +35,18 @@ const templateService = new ExpressTemplateService(models, {"noImplicitAdditiona
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
+
+
+
 export function RegisterRoutes(app: Router) {
+
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.post('/generate-image/limewire',
-            ...(fetchMiddlewares<RequestHandler>(OpenAIController)),
-            ...(fetchMiddlewares<RequestHandler>(OpenAIController.prototype.generateImageLimewire)),
 
-            async function OpenAIController_generateImageLimewire(request: ExRequest, response: ExResponse, next: any) {
-            const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    request: {"in":"body","name":"request","required":true,"ref":"GenerateImageRequest"},
-            };
 
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args, request, response });
-
-                const controller = new OpenAIController();
-
-              await templateService.apiHandler({
-                methodName: 'generateImageLimewire',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: 200,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    
         app.post('/generate-image/openai',
             ...(fetchMiddlewares<RequestHandler>(OpenAIController)),
             ...(fetchMiddlewares<RequestHandler>(OpenAIController.prototype.generateImageOpenAI)),
@@ -89,36 +66,6 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'generateImageOpenAI',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: 200,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/generate-image/test',
-            ...(fetchMiddlewares<RequestHandler>(OpenAIController)),
-            ...(fetchMiddlewares<RequestHandler>(OpenAIController.prototype.generateTest)),
-
-            async function OpenAIController_generateTest(request: ExRequest, response: ExResponse, next: any) {
-            const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    request: {"in":"body","name":"request","required":true,"ref":"GenerateImageRequest"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args, request, response });
-
-                const controller = new OpenAIController();
-
-              await templateService.apiHandler({
-                methodName: 'generateTest',
                 controller,
                 response,
                 next,
