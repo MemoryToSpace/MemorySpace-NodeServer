@@ -15,8 +15,6 @@ WORKDIR /app
 
 COPY --from=builder /app /app
 
-COPY .env .env
-
 RUN npm prune --production
 
 ENV NODE_ENV production

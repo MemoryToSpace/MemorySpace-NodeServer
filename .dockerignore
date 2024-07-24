@@ -1,18 +1,18 @@
-node_modules
+# node_modules
 
-logs
+# logs
 
-dist
+# dist
 
-Dockerfile
-docker-compose.yml
+# Dockerfile
+# docker-compose.yml
 
-.git
-.gitignore
+# .git
+# .gitignore
 
-*.swp
-*.tmp
-*.temp
-*.bak
-*.backup
-.DS_Store
+# *.swp
+# *.tmp
+# *.temp
+# *.bak
+# *.backup
+# .DS_Store
