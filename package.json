@@ -4,14 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm-run-all routes spec start:server",
-    "start:server": "node --max-old-space-size=4096 -r ts-node/register src/server.ts",
+    "start": "node dist/server.js",
     "dev": "npm-run-all routes spec dev:server",
     "dev:server": "nodemon src/server.ts",
-    "prebuild": "npm run routes && npm run spec",
-    "build": "tsc",
+    "prebuild": "npm run routes && npm run spec:build",
+    "build": "tsc && npm run prebuild",
     "routes": "tsoa routes",
     "spec": "tsoa spec",
+    "spec:build": "tsoa spec -c tsoa-build.json",
+    "copy-swagger": "cp src/swagger.json dist/swagger.json",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts"
@@ -65,7 +66,7 @@
     "tsconfig-paths": "^4.2.0",
     "tsoa": "^6.3.1",
     "uuid": "^10.0.0",
-    "winston": "^3.13.0",
+    "winston": "^3.13.1",
     "zod": "^3.23.8"
   }
 }

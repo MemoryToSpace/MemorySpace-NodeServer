@@ -1,8 +1,9 @@
+// src\middleware\errorHandlers.ts
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../utils/appError';
 import { vars } from '../config/vars';
 
-export const notFoundHandler = (next: NextFunction): void => {
+export const notFoundHandler = (req: Request, res: Response, next: NextFunction): void => {
   const error = new AppError('Not Found', 404);
   next(error);
 };

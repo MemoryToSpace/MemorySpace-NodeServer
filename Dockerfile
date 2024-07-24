@@ -7,9 +7,6 @@ RUN npm install
 
 COPY . .
 
-RUN npm run routes
-RUN npm run spec
-
 RUN npm run build
 
 FROM node:18-alpine AS runner
@@ -18,4 +15,10 @@ WORKDIR /app
 
 COPY --from=builder /app /app
 
-CMD ["npm", "run", "start:server"]
+COPY .env .env
+
+RUN npm prune --production
+
+ENV NODE_ENV production
+
+CMD ["node", "dist/server.js"]

@@ -13,6 +13,7 @@ const databaseURL = process.env.DATABASE.replace('<PASSWORD>', process.env.DATAB
 
 export const vars = {
   nodeEnv: process.env.NODE_ENV || defaults.nodeEnv,
+  swaggerPath: process.env.NODE_ENV === 'development' ? '../dist/swagger.json' : './swagger.json',
   port: process.env.PORT || defaults.port,
   limeToken: process.env.LIME_TOKEN || '',
   openAiKey: process.env.OPENAI_KEY || '',

@@ -1,14 +1,21 @@
-import app from './app';
 import { vars } from './config/vars';
 import { connectDB } from './config/connectDb';
+import app from './app';
+import logger from './config/logger';
 
 const port = vars.port || 3000;
 
 // Connect to the database
 connectDB();
 
-// Start the server
+// Create a heapdump on unhandledRejection
+process.on('unhandledRejection', (reason, _promise) => {
+  logger.error('Unhandled Rejection:', reason);
+  // יצירת heapdump יכולה להתבצע כאן בעתיד במידה ונדרש
+});
+
+// Initialize and start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log(`Swagger docs are available at http://localhost:${port}/docs`);
+  logger.info(`Server is running on port ${port}`);
+  logger.info(`Swagger docs are available at http://localhost:${port}/docs`);
 });

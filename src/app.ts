@@ -1,10 +1,13 @@
+// src\app.ts
 import express from 'express';
 import bodyParser from 'body-parser';
 import { RegisterRoutes } from './routes/routes';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
-import swaggerDocument from '../dist/swagger.json';
+import swaggerDocument from './swagger.json';
 import { errorHandler, notFoundHandler } from './middleware/errorHandlers';
+import logger from './config/logger';
+
 // import morgan from 'morgan';
 
 const app = express();
@@ -22,7 +25,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-// app.use(morgan('combined'));
+app.use((req, res, next) => {
+  logger.info(`API Request: ${req.method} ${req.url}`);
+  next();
+});
 
 // Register all routes
 RegisterRoutes(app);
