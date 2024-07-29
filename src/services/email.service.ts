@@ -31,7 +31,7 @@ export const sendMemoryByEmail = async (memoryId: string, email: string): Promis
       <p style="font-size: 16px; color: #0000FF; text-align: center;">Thanks for being a part of my project</p>
       <p style="font-size: 16px; color: #0000FF; text-align: center;"><strong>Noa Peretz</strong></p>
       <div style="text-align: center; margin: 30px 0;">
-        <a href="https://example.com" style="font-size: 14px; color: #fff; background-color: #F8A679; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit Our Website</a>
+        <a href="https://memory-to-space.netlify.app/" style="font-size: 14px; color: #fff; background-color: #F8A679; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit Our Website</a>
       </div>
       <p style="font-size: 14px; color: #0000FF; text-align: center;">
         I'd love to hear about your experience with the project and answer any questions you might have.<br>
