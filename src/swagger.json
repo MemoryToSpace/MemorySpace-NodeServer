@@ -1,0 +1,178 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"GenerateImageRequest": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SendMemoryEmailRequest": {
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"_id",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "memory-to-space",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/generate-image/openai": {
+			"post": {
+				"operationId": "GenerateImageOpenAI",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"imageUrl": {
+											"type": "string"
+										},
+										"inputText": {
+											"type": "string"
+										},
+										"_id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"imageUrl",
+										"inputText",
+										"_id"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"text": "A cozy cottage in the woods"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "Generate an image based on the provided text prompt using OpenAI",
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "The text prompt to be used for image generation",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/GenerateImageRequest",
+								"description": "The text prompt to be used for image generation"
+							},
+							"example": {
+								"text": "A cozy cottage in the woods"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/generate-image/send-memory": {
+			"post": {
+				"operationId": "SendMemoryByEmail",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Send memory details to the provided email",
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "The request containing memory ID and email",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SendMemoryEmailRequest",
+								"description": "The request containing memory ID and email"
+							},
+							"example": {
+								"_id": "60d5f2c2fc13ae1d7c002b1e",
+								"email": "example@example.com"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/health-check": {
+			"get": {
+				"operationId": "CheckServer",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"description": "Check if the server is alive",
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
