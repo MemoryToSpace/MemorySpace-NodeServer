@@ -16,6 +16,7 @@ declare module 'openai' {
   export interface CreateChatCompletionRequest {
     model: string;
     messages: ChatCompletionRequestMessage[];
+    max_tokens?: number;
   }
 
   export class OpenAI {

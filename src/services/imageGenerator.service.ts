@@ -21,7 +21,7 @@ export const generateImageOpenAI = async (
 
   const improvedText = await enhancePrompt(processedText);
 
-  const refinedPrompt = `Create an image according to: "${improvedText}". The image should be in the style of an architectural drawing, in beautiful black and white, and viewed from a high bird's-eye perspective.`;
+  const refinedPrompt = `Create an image according to: "${improvedText}". The image must be in beautiful black and white, in the style of an architectural drawing, and viewed from a high bird's-eye perspective.`;
   const res = await generateImageRequestOpenAI(refinedPrompt);
   const base64Image = res.data[0].b64_json;
 

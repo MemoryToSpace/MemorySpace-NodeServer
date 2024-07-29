@@ -7,9 +7,11 @@ const openai = new OpenAI({
   apiKey: vars.openAiKey,
 });
 
+const MAX_NLP_OUTPUT_LENGTH = 3600;
+
 export const enhancePrompt = async (text: string): Promise<string> => {
   const systemMessage = `
-    Given the following input memory, generate a detailed description that can be translated into architectural and landscape elements. Include key elements, emotions and atmosphere, visualization and design details, and historical and cultural significance where applicable.
+    Given the following input memory, generate a detailed description that can be translated into architectural and landscape elements. Include key elements, emotions and atmosphere, visualization and design details, and historical and cultural significance where applicable. The output should be up to ${MAX_NLP_OUTPUT_LENGTH} characters.
 
     **Input Memory:**
     {memory_description}
@@ -75,7 +77,7 @@ export const enhancePrompt = async (text: string): Promise<string> => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
@@ -83,11 +85,16 @@ export const enhancePrompt = async (text: string): Promise<string> => {
         },
         { role: 'user', content: text },
       ],
+      max_tokens: 2048,
     });
 
-    const message = completion.choices?.[0]?.message?.content;
+    let message = completion.choices?.[0]?.message?.content;
     if (message) {
-      return message.trim();
+      message = message.trim();
+      if (message.length > MAX_NLP_OUTPUT_LENGTH) {
+        message = message.substring(0, MAX_NLP_OUTPUT_LENGTH);
+      }
+      return message;
     } else {
       throw new Error('No message content found');
     }
@@ -107,7 +114,7 @@ export const translateText = async (text: string): Promise<string> => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: translationPrompt },
         { role: 'user', content: text },
